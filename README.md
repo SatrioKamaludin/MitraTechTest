@@ -11,3 +11,6 @@ How to start the program
 
    ![image](https://github.com/user-attachments/assets/8e63ac5e-2e35-494d-bb16-3afdd65633c6)
 7. Access the swagger page http://localhost:xxxx/swagger/index.html (xxxx: port number)
+
+Notes:
+For adding and updating employee data, you can remove "employeeId": 0, in json body request since adding an employee data doesn't need it and update employee data already use id in param.
