@@ -13,9 +13,9 @@ namespace MitraTechTest.Controllers
     [Route("api/[controller]")]
     public class EmployeeController : ControllerBase
     {
-        private readonly EmployeeService _employeeService;
+        private readonly IEmployeeService _employeeService;
 
-        public EmployeeController(EmployeeService employeeService)
+        public EmployeeController(IEmployeeService employeeService)
         {
             _employeeService = employeeService;
         }

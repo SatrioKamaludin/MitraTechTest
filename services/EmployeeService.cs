@@ -2,7 +2,7 @@ using MitraTechTest.Models;
 
 namespace MitraTechTest.Services
 {
-    public class EmployeeService
+    public class EmployeeService : IEmployeeService
     {
 
         // Initialize 3 Existing Employee datas
