@@ -25,7 +25,14 @@ namespace MitraTechTest.Controllers
         [SwaggerOperation(Summary = "Gets a list of all employees.")]
         public ActionResult<IEnumerable<Employee>> GetEmployees()
         {
-            return Ok(_employeeService.GetEmployees());
+            try
+            {
+                return Ok(_employeeService.GetEmployees());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         /// <param name="id">The ID of the employee.</param>
@@ -34,12 +41,19 @@ namespace MitraTechTest.Controllers
         [SwaggerOperation(Summary = "Gets an employee by ID.")]
         public ActionResult<Employee> GetEmployee(int id)
         {
-            var employee = _employeeService.GetEmployeeById(id);
-            if (employee == null)
+            try
             {
-                return NotFound();
+                var employee = _employeeService.GetEmployeeById(id);
+                if (employee == null)
+                {
+                    return NotFound();
+                }
+                return Ok(employee);
             }
-            return Ok(employee);
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         /// <param name="employee">The employee to create.</param>
@@ -49,8 +63,15 @@ namespace MitraTechTest.Controllers
         [SwaggerRequestExample(typeof(Employee), typeof(EmployeeExample))]
         public ActionResult<Employee> AddEmployee(Employee employee)
         {
-            var newEmployee = _employeeService.AddEmployee(employee);
-            return CreatedAtAction(nameof(GetEmployee), new { id = employee.EmployeeId }, employee);
+            try
+            {
+                var newEmployee = _employeeService.AddEmployee(employee);
+                return CreatedAtAction(nameof(GetEmployee), new { id = employee.EmployeeId }, employee);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         /// <param name="id">The ID of the employee to update.</param>
@@ -61,12 +82,19 @@ namespace MitraTechTest.Controllers
         [SwaggerRequestExample(typeof(Employee), typeof(EmployeeExample))]
         public IActionResult updateEmployee(int id, Employee employee)
         {
-            var employeeUpdatePassed = _employeeService.UpdateEmployee(id, employee);
-            if (!employeeUpdatePassed)
+            try
             {
-                return NotFound();
+                var employeeUpdatePassed = _employeeService.UpdateEmployee(id, employee);
+                if (!employeeUpdatePassed)
+                {
+                    return NotFound();
+                }
+                return NoContent();
             }
-            return NoContent();
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         /// <param name="id">The ID of the employee to delete.</param>
@@ -75,12 +103,19 @@ namespace MitraTechTest.Controllers
         [SwaggerOperation(Summary = "Deletes an employee by ID.")]
         public IActionResult DeleteEmployee(int id)
         {
-            var employeeDeletePassed = _employeeService.DeleteEmployee(id);
-            if (!employeeDeletePassed)
+            try
             {
-                return NotFound();
+                var employeeDeletePassed = _employeeService.DeleteEmployee(id);
+                if (!employeeDeletePassed)
+                {
+                    return NotFound();
+                }
+                return NoContent();
             }
-            return NoContent();
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
