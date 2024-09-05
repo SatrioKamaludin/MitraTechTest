@@ -31,7 +31,7 @@ namespace MitraTechTest.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, "An internal server error occurred: " + ex.Message);
             }
         }
 
@@ -52,7 +52,7 @@ namespace MitraTechTest.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, "An internal server error occurred: " + ex.Message);
             }
         }
 
@@ -65,12 +65,15 @@ namespace MitraTechTest.Controllers
         {
             try
             {
+                if (_employeeService.EmployeeExists(employee.FullName, employee.BirthDate)){
+                    return BadRequest("Employee with the same name and birthdate already exists");
+                }
                 var newEmployee = _employeeService.AddEmployee(employee);
                 return CreatedAtAction(nameof(GetEmployee), new { id = employee.EmployeeId }, employee);
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, "An internal server error occurred: " + ex.Message);
             }
         }
 
@@ -93,7 +96,7 @@ namespace MitraTechTest.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, "An internal server error occurred: " + ex.Message);
             }
         }
 
@@ -114,7 +117,7 @@ namespace MitraTechTest.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, "An internal server error occurred: " + ex.Message);
             }
         }
     }
