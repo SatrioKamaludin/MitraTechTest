@@ -10,4 +10,4 @@ How to start the program
 6. Check the port of running app
 
    ![image](https://github.com/user-attachments/assets/8e63ac5e-2e35-494d-bb16-3afdd65633c6)
-7. Access the swagger page http://localhost:<port number>/swagger/index.html
+7. Access the swagger page http://localhost:xxxx/swagger/index.html (xxxx: port number)
