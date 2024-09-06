@@ -1,3 +1,4 @@
+using MitraTechTest.Dtos;
 using MitraTechTest.Models;
 
 namespace MitraTechTest.Services
@@ -14,15 +15,29 @@ namespace MitraTechTest.Services
         };
 
         //Obtain the list of employees
-        public IEnumerable<Employee> GetEmployees()
+        public Response GetEmployees()
         {
-            return employees;
+            return new Response
+            {
+                Success = true,
+                Message = "Employees retrieved successfully",
+                Data = employees
+            };
         }
 
         //Obtain an employee by ID
-        public Employee GetEmployeeById(int id)
+        public Response GetEmployeeById(int id)
         {
-            return employees.FirstOrDefault(e => e.EmployeeId == id);
+            if (!employees.Any(e => e.EmployeeId == id))
+            {
+                return new Response { Success = false, Message = "Employee " + id + " not found" };
+            }
+            return new Response
+            {
+                Success = true,
+                Message = "Employee " + id + " retrieved successfully",
+                Data = employees.FirstOrDefault(e => e.EmployeeId == id)
+            };
         }
 
         //Add an employee
@@ -40,28 +55,28 @@ namespace MitraTechTest.Services
         }
 
         //Update an employee by ID
-        public bool UpdateEmployee(int id, Employee employee)
+        public Response UpdateEmployee(int id, Employee employee)
         {
             var existingEmployee = employees.FirstOrDefault(e => e.EmployeeId == id);
             if (existingEmployee == null)
             {
-                return false;
+                return new Response { Success = false, Message = "Employee " + id + " not found" };
             }
             existingEmployee.FullName = employee.FullName;
             existingEmployee.BirthDate = employee.BirthDate;
-            return true;
+            return new Response { Success = true, Message = "Employee " + id + " updated successfully" };
         }
 
         //Delete an employee by ID
-        public bool DeleteEmployee(int id)
+        public Response DeleteEmployee(int id)
         {
             var employee = employees.FirstOrDefault(e => e.EmployeeId == id);
             if (employee == null)
             {
-                return false;
+                return new Response { Success = false, Message = "Employee " + id + " not found" };
             }
             employees.Remove(employee);
-            return true;
+            return new Response { Success = true, Message = "Employee " + id + " deleted successfully" };
         }
     }
 }

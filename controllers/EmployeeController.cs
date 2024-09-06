@@ -3,6 +3,7 @@ using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.Filters;
 using MitraTechTest.Models;
 using MitraTechTest.Services;
+using MitraTechTest.Dtos;
 
 namespace MitraTechTest.Controllers
 {
@@ -27,7 +28,8 @@ namespace MitraTechTest.Controllers
         {
             try
             {
-                return Ok(_employeeService.GetEmployees());
+                var getEmployeeesResult = _employeeService.GetEmployees();
+                return Ok(new { getEmployeeesResult.Success, getEmployeeesResult.Message, getEmployeeesResult.Data });
             }
             catch (Exception ex)
             {
@@ -44,11 +46,11 @@ namespace MitraTechTest.Controllers
             try
             {
                 var employee = _employeeService.GetEmployeeById(id);
-                if (employee == null)
+                if (!employee.Success)
                 {
-                    return NotFound();
+                    return NotFound(new Response { Success = employee.Success, Message = employee.Message });
                 }
-                return Ok(employee);
+                return Ok(new { employee.Success, employee.Message, employee.Data });
             }
             catch (Exception ex)
             {
@@ -88,11 +90,11 @@ namespace MitraTechTest.Controllers
             try
             {
                 var employeeUpdatePassed = _employeeService.UpdateEmployee(id, employee);
-                if (!employeeUpdatePassed)
+                if (!employeeUpdatePassed.Success)
                 {
-                    return NotFound();
+                    return NotFound(new Response { Success = false, Message = employeeUpdatePassed.Message });
                 }
-                return NoContent();
+                return Ok(new Response { Success = true, Message = employeeUpdatePassed.Message } );
             }
             catch (Exception ex)
             {
@@ -109,11 +111,11 @@ namespace MitraTechTest.Controllers
             try
             {
                 var employeeDeletePassed = _employeeService.DeleteEmployee(id);
-                if (!employeeDeletePassed)
+                if (!employeeDeletePassed.Success)
                 {
-                    return NotFound();
+                    return NotFound(new Response { Success = false, Message = employeeDeletePassed.Message });
                 }
-                return NoContent();
+                return Ok(new Response { Success = true, Message = employeeDeletePassed.Message });
             }
             catch (Exception ex)
             {
