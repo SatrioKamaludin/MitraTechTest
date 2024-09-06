@@ -5,6 +5,7 @@ using MitraTechTest.Models;
 using MitraTechTest.Services;
 using MitraTechTest.Dtos;
 
+// Controllers that call the Employee Service to get, add, update, and delete employees
 namespace MitraTechTest.Controllers
 {
     /// <summary>
@@ -29,7 +30,7 @@ namespace MitraTechTest.Controllers
             try
             {
                 var getEmployeeesResult = _employeeService.GetEmployees();
-                return Ok(new { getEmployeeesResult.Success, getEmployeeesResult.Message, getEmployeeesResult.Data });
+                return StatusCode(getEmployeeesResult.StatusCode, new { getEmployeeesResult.Success, getEmployeeesResult.Message, getEmployeeesResult.Data });
             }
             catch (Exception ex)
             {
@@ -46,11 +47,7 @@ namespace MitraTechTest.Controllers
             try
             {
                 var employee = _employeeService.GetEmployeeById(id);
-                if (!employee.Success)
-                {
-                    return NotFound(new Response { Success = employee.Success, Message = employee.Message });
-                }
-                return Ok(new { employee.Success, employee.Message, employee.Data });
+                return StatusCode(employee.StatusCode, new { employee.Success, employee.Message, employee.Data });
             }
             catch (Exception ex)
             {
@@ -63,15 +60,12 @@ namespace MitraTechTest.Controllers
         [HttpPost]
         [SwaggerOperation(Summary = "Creates a new employee.")]
         [SwaggerRequestExample(typeof(Employee), typeof(EmployeeExample))]
-        public ActionResult<Employee> AddEmployee(Employee employee)
+        public ActionResult<Employee> AddEmployee(EmployeeForm employeeForm)
         {
             try
             {
-                if (_employeeService.EmployeeExists(employee.FullName, employee.BirthDate)){
-                    return BadRequest("Employee with the same name and birthdate already exists");
-                }
-                var newEmployee = _employeeService.AddEmployee(employee);
-                return CreatedAtAction(nameof(GetEmployee), new { id = employee.EmployeeId }, employee);
+                var newEmployee = _employeeService.AddEmployee(employeeForm);
+                return StatusCode(newEmployee.StatusCode, new { newEmployee.Success, newEmployee.Message, newEmployee.Data });
             }
             catch (Exception ex)
             {
@@ -85,16 +79,12 @@ namespace MitraTechTest.Controllers
         [HttpPut("{id}")]
         [SwaggerOperation(Summary = "Updates an existing employee.")]
         [SwaggerRequestExample(typeof(Employee), typeof(EmployeeExample))]
-        public IActionResult updateEmployee(int id, Employee employee)
+        public IActionResult updateEmployee(int id, EmployeeForm employeeForm)
         {
             try
             {
-                var employeeUpdatePassed = _employeeService.UpdateEmployee(id, employee);
-                if (!employeeUpdatePassed.Success)
-                {
-                    return NotFound(new Response { Success = false, Message = employeeUpdatePassed.Message });
-                }
-                return Ok(new Response { Success = true, Message = employeeUpdatePassed.Message } );
+                var employeeUpdatePassed = _employeeService.UpdateEmployee(id, employeeForm);
+                return StatusCode(employeeUpdatePassed.StatusCode, new { employeeUpdatePassed.Success, employeeUpdatePassed.Message });
             }
             catch (Exception ex)
             {
@@ -111,11 +101,7 @@ namespace MitraTechTest.Controllers
             try
             {
                 var employeeDeletePassed = _employeeService.DeleteEmployee(id);
-                if (!employeeDeletePassed.Success)
-                {
-                    return NotFound(new Response { Success = false, Message = employeeDeletePassed.Message });
-                }
-                return Ok(new Response { Success = true, Message = employeeDeletePassed.Message });
+                return StatusCode(employeeDeletePassed.StatusCode, new { employeeDeletePassed.Success, employeeDeletePassed.Message });
             }
             catch (Exception ex)
             {

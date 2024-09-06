@@ -8,9 +8,9 @@ namespace MitraTechTest.Services
     {
         Response GetEmployees();
         Response GetEmployeeById(int id);
-        Employee AddEmployee(Employee employee);
+        Response AddEmployee(EmployeeForm employeeForm);
         bool EmployeeExists(string fullName, DateOnly birthDate);
-        Response UpdateEmployee(int id, Employee employee);
+        Response UpdateEmployee(int id, EmployeeForm employeeForm);
         Response DeleteEmployee(int id);
     }
 }
