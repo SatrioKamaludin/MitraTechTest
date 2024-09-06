@@ -1,3 +1,4 @@
+// Data Transfer Object for API Response
 namespace MitraTechTest.Dtos
 {
     public class Response

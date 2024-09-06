@@ -31,7 +31,12 @@ namespace MitraTechTest.Services
         {
             if (!employees.Any(e => e.EmployeeId == id))
             {
-                return new Response { StatusCode = 404, Success = false, Message = "Employee " + id + " not found" };
+                return new Response
+                {
+                    StatusCode = 404,
+                    Success = false,
+                    Message = "Employee " + id + " not found"
+                };
             }
             return new Response
             {
@@ -106,16 +111,26 @@ namespace MitraTechTest.Services
             // Return error if employee not found
             if (existingEmployee == null)
             {
-                return new Response { StatusCode = 404, Success = false, Message = "Employee " + id + " not found" };
+                return new Response
+                {
+                    StatusCode = 404,
+                    Success = false,
+                    Message = "Employee " + id + " not found"
+                };
             }
 
             // No changes if forms left blank
             if (string.IsNullOrEmpty(employeeForm.FullName) && employeeForm.BirthDate == default)
             {
-                return new Response { StatusCode = 400, Success = true, Message = "No changes made" };
+                return new Response
+                {
+                    StatusCode = 400,
+                    Success = true,
+                    Message = "No changes made"
+                };
             }
 
-            if(!string.IsNullOrEmpty(employeeForm.FullName))
+            if (!string.IsNullOrEmpty(employeeForm.FullName))
             {
                 existingEmployee.FullName = employeeForm.FullName;
             }
@@ -124,7 +139,13 @@ namespace MitraTechTest.Services
             {
                 existingEmployee.BirthDate = employeeForm.BirthDate;
             }
-            return new Response { StatusCode = 200, Success = true, Message = "Employee " + id + " updated successfully", Data = existingEmployee };
+            return new Response
+            {
+                StatusCode = 200,
+                Success = true,
+                Message = "Employee " + id + " updated successfully",
+                Data = existingEmployee
+            };
         }
 
         //Delete an employee by ID
@@ -133,10 +154,20 @@ namespace MitraTechTest.Services
             var employee = employees.FirstOrDefault(e => e.EmployeeId == id);
             if (employee == null)
             {
-                return new Response { StatusCode = 404, Success = false, Message = "Employee " + id + " not found" };
+                return new Response
+                {
+                    StatusCode = 404,
+                    Success = false,
+                    Message = "Employee " + id + " not found"
+                };
             }
             employees.Remove(employee);
-            return new Response { StatusCode = 200, Success = true, Message = "Employee " + id + " deleted successfully" };
+            return new Response
+            {
+                StatusCode = 200,
+                Success = true,
+                Message = "Employee " + id + " deleted successfully"
+            };
         }
     }
 }

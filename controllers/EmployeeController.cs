@@ -84,7 +84,7 @@ namespace MitraTechTest.Controllers
             try
             {
                 var employeeUpdatePassed = _employeeService.UpdateEmployee(id, employeeForm);
-                return StatusCode(employeeUpdatePassed.StatusCode, new { employeeUpdatePassed.Success, employeeUpdatePassed.Message });
+                return StatusCode(employeeUpdatePassed.StatusCode, new { employeeUpdatePassed.Success, employeeUpdatePassed.Message, employeeUpdatePassed.Data });
             }
             catch (Exception ex)
             {
