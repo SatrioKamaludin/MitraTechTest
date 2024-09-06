@@ -124,7 +124,7 @@ namespace MitraTechTest.Services
             {
                 existingEmployee.BirthDate = employeeForm.BirthDate;
             }
-            return new Response { StatusCode = 200, Success = true, Message = "Employee " + id + " updated successfully" };
+            return new Response { StatusCode = 200, Success = true, Message = "Employee " + id + " updated successfully", Data = existingEmployee };
         }
 
         //Delete an employee by ID
