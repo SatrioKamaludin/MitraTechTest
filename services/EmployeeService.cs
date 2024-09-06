@@ -8,9 +8,9 @@ namespace MitraTechTest.Services
         // Initialize 3 Existing Employee datas
         private static List<Employee> employees = new List<Employee>
         {
-            new Employee { EmployeeId = 1001, FullName = "Adit", BirthDate = new DateTime(2054, 8, 17) },
-            new Employee { EmployeeId = 1002, FullName = "Anton", BirthDate = new DateTime(2054, 8, 18) },
-            new Employee { EmployeeId = 1003, FullName = "Amir", BirthDate = new DateTime(2054, 8, 19) },
+            new Employee { EmployeeId = 1001, FullName = "Adit", BirthDate = new DateOnly(2054, 8, 17) },
+            new Employee { EmployeeId = 1002, FullName = "Anton", BirthDate = new DateOnly(2054, 8, 18) },
+            new Employee { EmployeeId = 1003, FullName = "Amir", BirthDate = new DateOnly(2054, 8, 19) },
         };
 
         //Obtain the list of employees
@@ -20,7 +20,7 @@ namespace MitraTechTest.Services
         }
 
         //Obtain an employee by ID
-        public Employee? GetEmployeeById(int id)
+        public Employee GetEmployeeById(int id)
         {
             return employees.FirstOrDefault(e => e.EmployeeId == id);
         }
@@ -34,7 +34,7 @@ namespace MitraTechTest.Services
         }
 
         //Check if existing employee already in data
-        public bool EmployeeExists(string fullName, DateTime birthDate)
+        public bool EmployeeExists(string fullName, DateOnly birthDate)
         {
             return employees.Any(e => e.FullName == fullName && e.BirthDate == birthDate);
         }

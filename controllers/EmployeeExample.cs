@@ -1,16 +1,16 @@
 //Class for Swagger POST and PUT requestBody Example
 
 using Swashbuckle.AspNetCore.Filters;
-using MitraTechTest.Models;
+using MitraTechTest.Dtos;
 
-public class EmployeeExample : IExamplesProvider<Employee>
+public class EmployeeExample : IExamplesProvider<EmployeeForm>
 {
-    public Employee GetExamples()
+    public EmployeeForm GetExamples()
     {
-        return new Employee
+        return new EmployeeForm
         {
             FullName = "John Doe",
-            BirthDate = DateTime.Parse("1990, 1, 1")
+            BirthDate = DateOnly.Parse("1990, 1, 1")
         };
     }
 }
